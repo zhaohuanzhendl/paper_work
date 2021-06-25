@@ -1,0 +1,72 @@
+\documentclass[UTF8]{ctexart}
+   \usepackage{amsmath}
+   \usepackage{amssymb}
+\begin{document}
+    \section{Rige Regression} 
+        \subsection{线性回归基本计算公式} $y=w^Tx$.
+        \subsection{带正则的脊回归基本计算公式} 
+        \begin{equation}
+            %t_\text{pix}=\frac{\Delta T}{N_\text{pix}}\times N_\text{det}.
+        J(w) = (y-Xw)^T(y-Xw) + \lambda{\parallel{w}\parallel}^2
+        \end{equation}
+        \paragraph{求解推导过程}
+        %\subparagraph{Hello Chairman Mao} is in the center of Tian'anmen Square\\
+        其中X是一个样本矩阵$X$每一行是一个样本$y$是label向量
+        \begin{equation}
+        \begin{aligned}
+          \nabla _w J(w) & = -X^Ty-X^Ty+2X^TXw+2\lambda w \\
+          & =-2X^Ty+2(X^TX+\lambda I)w = 0
+        \end{aligned}
+        \end{equation}
+        求解$w$后的结果可得:
+        \begin{equation}
+        w = (X^TX+\lambda I)^-1X^Ty
+        \end{equation}
+        
+    \section{Kernel Rige Regression}
+        \subsection{核脊回归}
+        这个形式因为有一项X没有办法写成内积的形式，所以我们需要将其转换，这里用到一个Matrix inversion lemma (MLAPP Page 117)的引理：
+        Matrix inversion lemma: 考虑一个一般的矩阵分割 
+        \begin{equation}
+        M = \left(
+        \begin{array}{cc}
+        E & F  \\
+        G & H
+        \end{array}
+        \right)
+        \end{equation}
+        假设E和H都是可逆的于是有:
+        \begin{equation}
+        \begin{aligned}
+        (E-FH^-1G)^{-1}&=E^{-1}+E^{-1}F(H-GE^{-1}F)^{-1}GE^{-1} \\
+        (E-FH^-1G)^{-1}FH^{-1}&=E^{-1}F(H-GE^{-1}F)^{-1}
+        \end{aligned}
+        \end{equation}
+        对上述第二条公式w的最优解进行化简， 令$H\triangleq \lambda^{-1}I, F\triangleq X^T, G\triangleq-X, E\triangleq I$ 得到如下等式:
+        \begin{equation}
+        \begin{aligned}
+          (E-FH^-1G)^{-1}FH^{-1} & = (I+X^T\lambda^{-1}X)^{-1}X^T\lambda^{-1} \\
+          & =(\lambda I+X^TX)^{-1}X^T
+        \end{aligned}
+        \end{equation}
+        使用上述公式对$w$结果进行变换如下:
+        \begin{equation}
+        \begin{aligned}
+          w & = (X^TX+\lambda I)^-1X^Ty \\
+          & =X^T(\lambda I+XX^T)^{-1}y
+        \end{aligned}
+        \end{equation}
+        接下来对上述公式进行kernel化，将w写成向量求合的形式 令
+        \begin{equation}
+        \alpha \triangleq (K+\lambda I_{N})^{-1}y
+        \end{equation}
+        于是w可以写成 
+        \begin{equation}
+        w = X^T\alpha = \sum_{i=1}^{N}{\alpha_i x_i}
+        \end{equation}
+        通过上述式子可以看出 $w$其实是所有样本的一个加权平均， 当新来一个待预测样本时 新标签值为
+        \begin{equation}
+        y^{*} = w^Tx^{*} = \sum_{i=1}^{N}{\alpha_i x_{i}^Tx^{*}} = \sum_{i=1}^{N}{\alpha_i k(x^{*}, x_i)}
+        \end{equation}
+
+\end{document}
