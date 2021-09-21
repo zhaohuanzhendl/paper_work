@@ -1,5 +1,6 @@
 """
 Two-sample hypothesis test with Maximum Mean Discrepancy (MMD) method.
+ref: https://github.com/afarahi/tatter
 """
 
 from __future__ import division
