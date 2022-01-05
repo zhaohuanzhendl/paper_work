@@ -108,12 +108,3 @@ ax2.set_xlabel(r'$x$', fontsize=14)
 ax2.set_xticks(np.arange(-10, 10.1, 1))
 plt.tight_layout()
 plt.show()
-
-import numpy as np
-mean = (1, 2)
-cov = [[1, 0], [0, 1]]
-x = np.random.multivariate_normal(mean, cov, (3, 3))
-print(x)
-xx = np.random.multivariate_normal(mean, cov)
-print(xx)
-
