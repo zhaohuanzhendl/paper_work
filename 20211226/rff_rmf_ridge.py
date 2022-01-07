@@ -66,7 +66,6 @@ class RFFRidgeRegression:
         return Z
 
 class RandomMaclaurin():
-
     def __init__(self, D=50, p=2, kernel='exp',
                  gamma=1.0, coefs=None, 
                  max_expansion=50,
@@ -111,9 +110,7 @@ class RandomMaclaurin():
     def _rademacher(self, random_state, size):
         return random_state.randint(2, size=size, dtype=np.int32)*2-1
 
-
     def fit(self, X, y=None):
-
         random_state = check_random_state(self.random_state)
         X = check_array(X, accept_sparse=False)
         n_samples, n_features = X.shape
@@ -134,9 +131,7 @@ class RandomMaclaurin():
         self.lm.fit(Z.T, y)
         return self
 
-
     def transform_implement(self, X):
-
         n_samples, n_features = X.shape
         #Z = np.zeros((n_samples, self.D))
         Z = np.ones((n_samples, self.D))
@@ -157,15 +152,13 @@ class RandomMaclaurin():
                     Z[row][i] *= np.sum(self.random_weights_[:, weight_offset] * sample)
                     weight_offset += 1
                 Z[row][i] *= np.sqrt(a_N * (self.p**(N+1)))
-
-            #print("weight_offset:", weight_offset)
+                
         print("rmf Z.T.shape:", Z.T.shape)
         #print("Z:", Z)
         return Z.T
 
     def transform(self, X):
         """Apply the approximate feature map to X.
-
         Parameters
         ----------
         X : {array-like, sparse matrix}, shape (n_samples, n_features)
@@ -180,7 +173,6 @@ class RandomMaclaurin():
         X = check_array(X, accept_sparse=True)
         n_samples, n_features = X.shape
         X_new = self.transform_implement(X)
-
         return X_new
     
     def predict(self, X):
@@ -248,7 +240,7 @@ ax2.set_xlabel(r'$x$', fontsize=14)
 ax2.set_xticks(np.arange(-10, 10.1, 1))
 
 ax3.margins(0, 0.1)
-ax3.set_title(rf'RMF regression, $D = {50}$')
+ax3.set_title(rf'RMF regression, $D = {D}$')
 ax3.set_ylabel(r'$y$', fontsize=14)
 ax3.set_xlabel(r'$x$', fontsize=14)
 ax3.set_xticks(np.arange(-10, 10.1, 1))
