@@ -10,6 +10,9 @@
 3. test_ex2.py 改造自ex/ex2_prob_params.py 
 
 测试FSSD 在不同样本数，不同维度, 使用高斯核 方差不同的情况下 结果如下: 
+rej_dict_opt 表示 使用J=5, 使用opt后的 FSSD 拒绝H_0的情况 字典k: 维度d, 字典v: 测试次数中拒绝的个数  
+rej_dict_med 表示 使用J=5, 不使用opt后的 FSSD 拒绝H_0的情况 字典k: 维度d, 字典v: 测试次数中拒绝的个数   
+
 n_samples: 4000
 reps = 50
 ('rej_dict_opt:', {1: 50, 5: 48, 10: 29, 15: 24}) 
